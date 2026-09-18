@@ -21,8 +21,8 @@ $('.menu').onclick=()=>{const open=$('nav').classList.toggle('open');$('.menu').
 update();fetch('galleries.json?v=3').then(r=>{if(!r.ok)throw Error();return r.json()}).then(data=>{galleries=data;update()}).catch(()=>{$('#gallery').innerHTML='<p>Die Bilder konnten nicht geladen werden. Alle Visualisierungen sind in den <a href="#dokumentation">einzelnen Entwurfsmappen</a> enthalten.</p>'});
 
 const bestandTitles=['Licht und Holz','Blick in die Dachkonstruktion','Dachraum im Bestand','Holzfassade und Garten','Ansicht vom Garten','Fassade und Zugang','Innenraum im Bestand'];
-const bestandItems=bestandTitles.map((title,i)=>({src:`bestand-${String(i+1).padStart(2,'0')}.webp`,title:`Bestand · ${title}`}));
-$('#bestand-gallery').innerHTML=bestandItems.map((g,i)=>`<button data-bestand="${i}"><img src="${g.src}" alt="${g.title}" loading="lazy"><span>${bestandTitles[i]}</span></button>`).join('');
+const bestandItems=bestandTitles.map((title,i)=>({src:`bestand-${String(i+1).padStart(2,'0')}.webp`,title:`Bestand · ${title}`})).filter((_,i)=>i!==4);
+$('#bestand-gallery').innerHTML=bestandItems.map((g,i)=>`<button data-bestand="${i}"><img src="${g.src}" alt="${g.title}" loading="lazy"><span>${g.title.replace('Bestand · ','')}</span></button>`).join('');
 $('#bestand-gallery').addEventListener('click',e=>{const b=e.target.closest('[data-bestand]');if(b)show(bestandItems,+b.dataset.bestand)});
 const openBestand=()=>show([{src:'bestand-plan.webp',title:'Bestandsplan · 30. Juni 2026'}]);
 $('#bestand-plan-open').onclick=openBestand;$('#bestand-plan-enlarge').onclick=openBestand;
